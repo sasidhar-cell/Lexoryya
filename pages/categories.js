@@ -18,9 +18,7 @@ export default function Categories() {
       <h1>Browse Categories</h1>
       <ul>
         {categories.map((cat, index) => (
-          <li key={index} style={{ margin: "10px 0" }}>
-            {cat}
-          </li>
+          <li key={index}>{cat}</li>
         ))}
       </ul>
     </div>
