@@ -1,41 +1,21 @@
-import Link from "next/link";
+import Layout from "../components/Layout";
 
 export default function Publish() {
   return (
-    <div style={{ padding: "40px", fontFamily: "Arial" }}>
-      <nav style={{ marginBottom: "20px" }}>
-        <Link href="/">Home</Link> |{" "}
-        <Link href="/categories">Categories</Link> |{" "}
-        <Link href="/books">Books</Link> |{" "}
-        <Link href="/pricing">Pricing</Link> |{" "}
-        <Link href="/publish">Publish</Link>
-      </nav>
-
+    <Layout>
       <h1>Publish with Lexoryya</h1>
 
       <p>
-        Lexoryya — Knowledge Without Borders is an academic platform where
-        authors, educators, and professionals can publish textbooks and
-        educational resources for a global audience.
+        Lexoryya — Knowledge Without Borders enables authors and educators to
+        publish and distribute academic content globally.
       </p>
 
-      <h2>Why Publish with Lexoryya?</h2>
       <ul>
-        <li>You keep full copyright ownership</li>
-        <li>Reach international students</li>
-        <li>No upfront publishing fees</li>
-        <li>Transparent commission-based earnings</li>
+        <li>You retain full copyright</li>
+        <li>No upfront fees</li>
+        <li>Global student reach</li>
+        <li>Commission-based earnings</li>
       </ul>
-
-      <h2>Revenue Sharing</h2>
-      <ul>
-        <li>eBooks: 70% Author / 30% Lexoryya</li>
-        <li>Audiobooks: 60% Author / 40% Lexoryya</li>
-      </ul>
-
-      <p>
-        📩 Author onboarding will be available soon.
-      </p>
-    </div>
+    </Layout>
   );
 }
