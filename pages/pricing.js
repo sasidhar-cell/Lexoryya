@@ -1,40 +1,21 @@
-import Link from "next/link";
+import Layout from "../components/Layout";
 
 export default function Pricing() {
   return (
-    <div style={{ padding: "40px", fontFamily: "Arial" }}>
-      <nav style={{ marginBottom: "20px" }}>
-        <Link href="/">Home</Link> |{" "}
-        <Link href="/categories">Categories</Link> |{" "}
-        <Link href="/books">Books</Link> |{" "}
-        <Link href="/pricing">Pricing</Link>
-      </nav>
-
+    <Layout>
       <h1>Pricing Plans</h1>
 
       <h2>Student Plans</h2>
-      <p><strong>Basic Plan</strong></p>
       <ul>
-        <li>Unlimited access to all eBooks</li>
-        <li>Cloud-based reading</li>
-        <li>₹499 / month</li>
-        <li>₹4,999 / year</li>
-      </ul>
-
-      <p><strong>Premium Plan</strong></p>
-      <ul>
-        <li>Access to eBooks and Audiobooks</li>
-        <li>Early access to new content</li>
-        <li>₹799 / month</li>
-        <li>₹7,999 / year</li>
+        <li>Basic: ₹499 / month — eBooks access</li>
+        <li>Premium: ₹799 / month — eBooks + Audiobooks</li>
       </ul>
 
       <h2>For Authors</h2>
       <ul>
-        <li>No upfront fees</li>
-        <li>70% revenue share on eBooks</li>
-        <li>60% revenue share on Audiobooks</li>
+        <li>eBooks: 70% Author / 30% Lexoryya</li>
+        <li>Audiobooks: 60% Author / 40% Lexoryya</li>
       </ul>
-    </div>
+    </Layout>
   );
 }
