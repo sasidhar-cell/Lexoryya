@@ -1,48 +1,95 @@
-import Link from "next/link";
+import { useState } from "react";
+import Layout from "../components/Layout";
+import { supabase } from "../lib/supabaseClient";
 
 export default function Publish() {
-  return (
-    <div style={{ padding: "40px", fontFamily: "Arial" }}>
-      <nav style={{ marginBottom: "20px" }}>
-        <Link href="/">Home</Link> |{" "}
-        <Link href="/categories">Categories</Link> |{" "}
-        <Link href="/books">Books</Link> |{" "}
-        <Link href="/pricing">Pricing</Link> |{" "}
-        <Link href="/publish">Publish with Lexoryya</Link>
-      </nav>
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
 
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setLoading(true);
+    setMessage("");
+
+    const form = e.target;
+    const name = form.name.value;
+    const email = form.email.value;
+    const title = form.title.value;
+    const file = form.file.files[0];
+
+    if (!file) {
+      setMessage("Please select a PDF file");
+      setLoading(false);
+      return;
+    }
+
+    const filePath = `${Date.now()}-${file.name}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from("books")
+      .upload(filePath, file);
+
+    if (uploadError) {
+      setMessage("File upload failed");
+      setLoading(false);
+      return;
+    }
+
+    const { data: authorData, error: authorError } = await supabase
+      .from("authors")
+      .insert([{ name, email }])
+      .select()
+      .single();
+
+    if (authorError) {
+      setMessage("Author save failed");
+      setLoading(false);
+      return;
+    }
+
+    const { error: bookError } = await supabase.from("books").insert([
+      {
+        title,
+        file_url: filePath,
+        author_id: authorData.id
+      }
+    ]);
+
+    if (bookError) {
+      setMessage("Book save failed");
+      setLoading(false);
+      return;
+    }
+
+    setMessage("✅ Book submitted successfully!");
+    setLoading(false);
+    form.reset();
+  }
+
+  return (
+    <Layout>
       <h1>Publish with Lexoryya</h1>
 
-      <p>
-        Lexoryya — Knowledge Without Borders is an academic platform that allows
-        authors, educators, and professionals to publish and sell their
-        educational content globally.
-      </p>
+      <form onSubmit={handleSubmit}>
+        <p>
+          <input name="name" placeholder="Author name" required />
+        </p>
+        <p>
+          <input name="email" type="email" placeholder="Email" required />
+        </p>
+        <p>
+          <input name="title" placeholder="Book title" required />
+        </p>
+        <p>
+          <input name="file" type="file" accept="application/pdf" required />
+        </p>
 
-      <h2>Why Publish with Lexoryya?</h2>
-      <ul>
-        <li>You retain full copyright of your work</li>
-        <li>Reach international students</li>
-        <li>Earn through a transparent commission-based model</li>
-        <li>No upfront publishing fees</li>
-      </ul>
+        <button type="submit" disabled={loading}>
+          {loading ? "Uploading..." : "Submit Book"}
+        </button>
+      </form>
 
-      <h2>Revenue Sharing</h2>
-      <ul>
-        <li>eBooks: 70% Author / 30% Lexoryya</li>
-        <li>Audiobooks: 60% Author / 40% Lexoryya</li>
-      </ul>
-
-      <h2>How to Get Started</h2>
-      <ol>
-        <li>Prepare your academic content</li>
-        <li>Contact us to onboard as an author</li>
-        <li>Upload your book after approval</li>
-      </ol>
-
-      <p>
-        📩 Contact: <strong>publish@lexoryya.com</strong> (coming soon)
-      </p>
-    </div>
+      {message && <p>{message}</p>}
+    </Layout>
   );
 }
