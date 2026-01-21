@@ -1,3 +1,5 @@
+import Layout from "../components/Layout";
+
 export default function Categories() {
   const categories = [
     "Pharmacy",
@@ -14,13 +16,13 @@ export default function Categories() {
   ];
 
   return (
-    <div style={{ padding: "40px", fontFamily: "Arial" }}>
+    <Layout>
       <h1>Browse Categories</h1>
       <ul>
         {categories.map((cat, index) => (
           <li key={index}>{cat}</li>
         ))}
       </ul>
-    </div>
+    </Layout>
   );
 }
