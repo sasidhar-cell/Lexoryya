@@ -23,8 +23,8 @@ export default function Publish() {
       return;
     }
 
-    // Upload PDF
     const filePath = `${Date.now()}-${file.name}`;
+
     const { error: uploadError } = await supabase.storage
       .from("books")
       .upload(filePath, file);
@@ -35,7 +35,6 @@ export default function Publish() {
       return;
     }
 
-    // Save author
     const { data: authorData, error: authorError } = await supabase
       .from("authors")
       .insert([{ name, email }])
@@ -48,7 +47,6 @@ export default function Publish() {
       return;
     }
 
-    // Save book
     const { error: bookError } = await supabase.from("books").insert([
       {
         title,
