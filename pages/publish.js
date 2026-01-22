@@ -1,8 +1,8 @@
-"use client";
+"use client""use client";
 
 import { useState } from "react";
 import Layout from "../components/Layout";
-import { supabase } from "../lib/supabaseClient";
+import { getSupabaseClient } from "../lib/supabaseClient";
 
 export default function Publish() {
   const [loading, setLoading] = useState(false);
