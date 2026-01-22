@@ -14,6 +14,8 @@ export default function Publish() {
     setLoading(true);
     setMessage("");
 
+    const supabase = getSupabaseClient();
+ 
     const form = e.target;
     const name = form.name.value;
     const email = form.email.value;
